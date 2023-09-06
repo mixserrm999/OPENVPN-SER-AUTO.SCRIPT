@@ -241,9 +241,8 @@ LimitNPROC=infinity" > /etc/systemd/system/openvpn-server@server.service.d/disab
 	if [ ! -d "$directory_path" ]; then
 		sudo mkdir -p "$directory_path"
 	fi
-	sudo tee "$directory_path/$script_file"
 	# Create the script file with your desired content
-	cat <<EOL > /etc/openvpn/auth-script
+	sudo tee "$directory_path/$script_file" > /dev/null <<EOL
 	#!/bin/bash
 	# /etc/openvpn/auth-script
 
