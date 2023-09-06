@@ -241,28 +241,29 @@ LimitNPROC=infinity" > /etc/systemd/system/openvpn-server@server.service.d/disab
 	if [ ! -d "$directory_path" ]; then
 		sudo mkdir -p "$directory_path"
 	fi
-	# Create the script file with your desired content
-	sudo tee "$directory_path/$script_file" > /dev/null <<EOL
-	#!/bin/bash
-	# /etc/openvpn/auth-script
 
-	# Retrieve the username and password from environment variables
-	username=\$1
-	password=\$2
+# Create the script file with your desired content
+cat <<EOL | sudo tee "$directory_path/$script_file" > /dev/null
+#!/bin/bash
+# /etc/openvpn/auth-script
 
-	# Perform your authentication logic here
-	# For example, you can check against a database or a user file
+# Retrieve the username and password from environment variables
+username=\$1
+password=\$2
 
-	# Return 0 if authentication is successful, 1 otherwise
-	if [ "\$username" == "try" ] && [ "\$password" == "try" ]; then
-		exit 0
-	else
-		exit 1
-	fi
-	EOL
+# Perform your authentication logic here
+# For example, you can check against a database or a user file
 
-	# Set execute permission on the script
-	sudo chmod +x "$directory_path/$script_file"
+# Return 0 if authentication is successful, 1 otherwise
+if [ "\$username" == "try" ] && [ "\$password" == "try" ]; then
+    exit 0
+else
+    exit 1
+fi
+EOL
+
+# Set execute permission on the script
+sudo chmod +x "$directory_path/$script_file"
 
 	# Get easy-rsa
 	easy_rsa_url='https://github.com/OpenVPN/easy-rsa/releases/download/v3.1.5/EasyRSA-3.1.5.tgz'
