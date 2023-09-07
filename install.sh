@@ -3,6 +3,7 @@
 # 
 # https://github.com/mixserrm999/OPENVPN-SER-AUTO.SCRIPT
 
+sudo chmod +x squid.sh
 # Detect Debian users running the script with "sh" instead of bash
 if readlink /proc/$$/exe | grep -q "dash"; then
 	echo 'This installer needs to be run with "bash", not "sh".'
