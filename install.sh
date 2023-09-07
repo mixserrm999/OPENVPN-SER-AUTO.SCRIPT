@@ -1,7 +1,7 @@
 #!/bin/bash
 #
 # 
-#
+# https://github.com/mixserrm999/OPENVPN-SER-AUTO.SCRIPT
 
 # Detect Debian users running the script with "sh" instead of bash
 if readlink /proc/$$/exe | grep -q "dash"; then
