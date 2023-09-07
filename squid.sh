@@ -71,4 +71,6 @@ sudo systemctl restart squid
 # เปิดพอร์ต 8080 ในไฟร์วอลล์
 sudo ufw allow 8080/tcp
 
+chmod +x squid.sh
+
 echo "ติดตั้ง Squid และกำหนดพอร์ตเสร็จสมบูรณ์"
