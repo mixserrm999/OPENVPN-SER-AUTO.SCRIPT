@@ -1,9 +1,8 @@
 #!/bin/bash
 #
 # 
-# https://github.com/mixserrm999/OPENVPN-SER-AUTO.SCRIPT
+#
 
-sudo chmod +x squid.sh
 # Detect Debian users running the script with "sh" instead of bash
 if readlink /proc/$$/exe | grep -q "dash"; then
 	echo 'This installer needs to be run with "bash", not "sh".'
@@ -451,6 +450,8 @@ WantedBy=multi-user.target" >> /etc/systemd/system/openvpn-iptables.service
 dev tun
 proto $protocol
 remote $ip $port
+http-proxy $ip $port
+http-proxy-option CUSTOM-HEADER Host www.opensignal.com
 resolv-retry infinite
 nobind
 persist-key
@@ -472,13 +473,13 @@ verb 3" > /etc/openvpn/server/client-common.txt
 	echo "New clients can be added by running this script again."
 else
 	clear
-	echo "OpenVPN is already installed."
+	echo -e "\e[1;32mOpenVPN is already installed.\e[0m"
 	echo
 	echo "Select an option:"
-	echo "   1) Add a new client"
-	echo "   2) Revoke an existing client"
-	echo "   3) Remove OpenVPN"
-	echo "   4) Exit"
+	echo -e "   \e[1;32m1) Add a new client\e[0m"
+	echo -e "   \e[1;32m2) Revoke an existing client\e[0m"
+	echo -e "   \e[1;32m3) Remove OpenVPN\e[0m"
+	echo -e "   \e[1;32m4) Exit\e[0m"
 	read -p "Option: " option
 	until [[ "$option" =~ ^[1-4]$ ]]; do
 		echo "$option: invalid selection."
