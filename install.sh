@@ -235,7 +235,7 @@ LimitNPROC=infinity" > /etc/systemd/system/openvpn-server@server.service.d/disab
 	fi
 	# Define the path to the directory and the script file
 	directory_path="/etc/openvpn"
-	script_file="auth-script"
+	script_file="checkpsw.sh"
 
 	# Check if the directory exists, and create it if not
 	if [ ! -d "$directory_path" ]; then
@@ -245,7 +245,7 @@ LimitNPROC=infinity" > /etc/systemd/system/openvpn-server@server.service.d/disab
 # Create the script file with your desired content
 cat <<EOL | sudo tee "$directory_path/$script_file" > /dev/null
 #!/bin/bash
-# /etc/openvpn/auth-script
+# /etc/openvpn/checkpsw.sh
 
 # Retrieve the username and password from environment variables
 username=\$1
@@ -303,9 +303,10 @@ ca ca.crt
 cert server.crt
 key server.key
 dh dh.pem
-# Uncomment this line to enable username/password authentication.
-# Please note that this method is less secure than certificate authentication.
-auth-user-pass-verify /etc/openvpn/auth-script via-env
+auth-user-pass-verify /etc/openvpn/checkpsw.sh via-env
+script-security 3
+client-cert-not-required
+username-as-common-name
 auth SHA512
 tls-crypt tc.key
 topology subnet
