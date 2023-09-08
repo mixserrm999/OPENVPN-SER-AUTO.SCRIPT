@@ -303,10 +303,6 @@ ca ca.crt
 cert server.crt
 key server.key
 dh dh.pem
-auth-user-pass-verify /etc/openvpn/checkpsw.sh via-env
-script-security 3
-client-cert-not-required
-username-as-common-name
 auth SHA512
 tls-crypt tc.key
 topology subnet
