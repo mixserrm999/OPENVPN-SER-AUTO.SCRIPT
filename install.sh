@@ -2,11 +2,6 @@
 #
 # 
 #
-wget https://raw.githubusercontent.com/mixserrm999/OPENVPN-SER-AUTO.SCRIPT/main/adduser.sh
-echo "done adduser file"
-
-wget https://raw.githubusercontent.com/mixserrm999/OPENVPN-SER-AUTO.SCRIPT/main/squid.sh
-echo "done squid file"
 
 # Detect Debian users running the script with "sh" instead of bash
 if readlink /proc/$$/exe | grep -q "dash"; then
@@ -446,6 +441,17 @@ verb 3" > /etc/openvpn/server/client-common.txt
 	echo
 	echo "The client configuration is available in:" ~/"$client.ovpn"
 	echo "New clients can be added by running this script again."
+        wget https://raw.githubusercontent.com/mixserrm999/OPENVPN-SER-AUTO.SCRIPT/main/adduser.sh
+        echo "done adduser file"
+
+        wget https://raw.githubusercontent.com/mixserrm999/OPENVPN-SER-AUTO.SCRIPT/main/squid.sh
+        echo "done squid file"
+
+        sudo systemctl restart openvpn-server@server
+        echo "done restart"
+	
+        sudo chmod +x adduser.sh
+        echo "done adduser"
 else
 	clear
 	echo -e "\e[1;32mOpenVPN is already installed.\e[0m"
@@ -576,7 +582,4 @@ else
 		;;
 	esac
 fi
-sudo systemctl restart openvpn-server@server
-echo "done restart"
-sudo chmod +x adduser.sh
-echo "done adduser"
+
