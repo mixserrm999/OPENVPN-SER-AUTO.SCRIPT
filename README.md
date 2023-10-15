@@ -1,5 +1,4 @@
 # OPENVPN-SER-AUTO.SCRIPT
-#
 
 install on ubuntu 18.04
 ```
