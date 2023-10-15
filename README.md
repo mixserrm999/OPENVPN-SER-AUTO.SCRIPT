@@ -1,6 +1,7 @@
 # OPENVPN-SER-AUTO.SCRIPT
 #
-``` hello
+install on ubuntu 18.04
+```
 wget https://raw.githubusercontent.com/mixserrm999/OPENVPN-SER-AUTO.SCRIPT/main/install.sh && chmod +x install.sh && ./install.sh
 ```
 ITS FREE OPENVPN SERVER UBUNTU 18.04 ++ RE
