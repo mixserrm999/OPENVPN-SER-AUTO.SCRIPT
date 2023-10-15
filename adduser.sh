@@ -20,7 +20,7 @@ if [ $? -eq 0 ]; then
     # 6. ถามผู้ใช้ว่าต้องการกำหนดวันหมดอายุหรือไม่
     read -p "ต้องการกำหนดวันหมดอายุ (ในวัน) ให้กับบัญชีผู้ใช้นี้หรือไม่ (y/n)? " choice
 
-    if [ "$choice" ]; then
+    if [ "$choice" == "y" ]; then
         # 7. รับจำนวนวันที่ต้องการให้บัญชีผู้ใช้หมดอายุ
         read -p "ระบุจำนวนวันที่ต้องการ (ในวัน): " days
         # 8. ใช้คำสั่ง chage เพื่อกำหนดวันหมดอายุ
@@ -29,6 +29,12 @@ if [ $? -eq 0 ]; then
     else
         echo "ไม่ได้กำหนดวันหมดอายุสำหรับผู้ใช้: $username"
     fi
+
+    # 9. แสดงข้อมูลผู้ใช้ในหน้าคอมแมนด์ไลน์
+    echo "User Information:"
+    echo "Username: $username"
+    echo "Password: $password"
+    echo "Expiration (days): $days day"
 else
     echo "DAMNN!!!"
 fi
