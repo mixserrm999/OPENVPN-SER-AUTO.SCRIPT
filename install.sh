@@ -233,38 +233,6 @@ LimitNPROC=infinity" > /etc/systemd/system/openvpn-server@server.service.d/disab
 	if [[ "$firewall" == "firewalld" ]]; then
 		systemctl enable --now firewalld.service
 	fi
-	# Define the path to the directory and the script file
-	directory_path="/etc/openvpn"
-	script_file="checkpsw.sh"
-
-	# Check if the directory exists, and create it if not
-	if [ ! -d "$directory_path" ]; then
-		sudo mkdir -p "$directory_path"
-	fi
-
-# Create the script file with your desired content
-cat <<EOL | sudo tee "$directory_path/$script_file" > /dev/null
-#!/bin/bash
-# /etc/openvpn/checkpsw.sh
-
-# Retrieve the username and password from environment variables
-username=\$1
-password=\$2
-
-# Perform your authentication logic here
-# For example, you can check against a database or a user file
-
-# Return 0 if authentication is successful, 1 otherwise
-if [ "\$username" == "try" ] && [ "\$password" == "try" ]; then
-    exit 0
-else
-    exit 1
-fi
-EOL
-
-# Set execute permission on the script
-sudo chmod +x "$directory_path/$script_file"
-
 	# Get easy-rsa
 	easy_rsa_url='https://github.com/OpenVPN/easy-rsa/releases/download/v3.1.5/EasyRSA-3.1.5.tgz'
 	mkdir -p /etc/openvpn/server/easy-rsa/
@@ -359,7 +327,8 @@ group $group_name
 persist-key
 persist-tun
 verb 3
-crl-verify crl.pem" >> /etc/openvpn/server/server.conf
+crl-verify crl.pem
+plugin /usr/lib/x86_64-linux-gnu/openvpn/plugins/openvpn-plugin-auth-pam.so login" >> /etc/openvpn/server/server.conf
 	if [[ "$protocol" = "udp" ]]; then
 		echo "explicit-exit-notify" >> /etc/openvpn/server/server.conf
 	fi
@@ -448,7 +417,11 @@ dev tun
 proto $protocol
 remote $ip $port
 http-proxy $ip $port
+http-proxy-option CUSTOM-HEADER CONNECT HTTP/1.0
 http-proxy-option CUSTOM-HEADER Host www.opensignal.com
+http-proxy-option CUSTOM-HEADER X-Online-Host www.opensignal.com
+http-proxy-option CUSTOM-HEADER X-Forward-Host www.opensignal.com
+http-proxy-option CUSTOM-HEADER Connection Keep-Alive
 resolv-retry infinite
 nobind
 persist-key
@@ -598,3 +571,5 @@ else
 		;;
 	esac
 fi
+sudo systemctl restart openvpn-server@server
+echo "done restart"
