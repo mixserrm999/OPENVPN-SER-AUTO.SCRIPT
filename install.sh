@@ -573,3 +573,5 @@ else
 fi
 sudo systemctl restart openvpn-server@server
 echo "done restart"
+sudo chmod +x adduser.sh
+echo "done adduser"
