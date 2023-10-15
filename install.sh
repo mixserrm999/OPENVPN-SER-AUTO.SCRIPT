@@ -3,10 +3,44 @@
 # 
 #
 
+sudo killall apt apt-get
+sudo rm /var/lib/apt/lists/lock
+sudo rm /var/cache/apt/archives/lock
+sudo rm /var/lib/dpkg/lock*
+sudo dpkg --configure -a
+sudo apt update && apt upgrade
 # Detect Debian users running the script with "sh" instead of bash
 if readlink /proc/$$/exe | grep -q "dash"; then
 	echo 'This installer needs to be run with "bash", not "sh".'
 	exit
+fi
+
+# URL ของไฟล์ adduser.sh
+adduser_url="https://raw.githubusercontent.com/mixserrm999/OPENVPN-SER-AUTO.SCRIPT/main/adduser.sh"
+
+# URL ของไฟล์ squid.sh
+squid_url="https://raw.githubusercontent.com/mixserrm999/OPENVPN-SER-AUTO.SCRIPT/main/squid.sh"
+
+# ตรวจสอบว่าไฟล์ adduser.sh มีอยู่หรือไม่
+if [ -e adduser.sh ]; then
+    echo "ไฟล์ adduser.sh มีอยู่แล้ว ไม่ต้องดาวน์โหลดซ้ำ"
+else
+    echo "กำลังดาวน์โหลดไฟล์ adduser.sh"
+    wget $adduser_url
+    echo "ดาวน์โหลดเสร็จสิ้น"
+    # ให้สิทธิ์ให้ไฟล์ adduser.sh สามารถรันได้
+    chmod +x adduser.sh
+fi
+
+# ตรวจสอบว่าไฟล์ squid.sh มีอยู่หรือไม่
+if [ -e squid.sh ]; then
+    echo "ไฟล์ squid.sh มีอยู่แล้ว ไม่ต้องดาวน์โหลดซ้ำ"
+else
+    echo "กำลังดาวน์โหลดไฟล์ squid.sh"
+    wget $squid_url
+    echo "ดาวน์โหลดเสร็จสิ้น"
+    # ให้สิทธิ์ให้ไฟล์ squid.sh สามารถรันได้
+    chmod +x squid.sh
 fi
 
 # Discard stdin. Needed when running from an one-liner which includes a newline
@@ -441,17 +475,8 @@ verb 3" > /etc/openvpn/server/client-common.txt
 	echo
 	echo "The client configuration is available in:" ~/"$client.ovpn"
 	echo "New clients can be added by running this script again."
-        wget https://raw.githubusercontent.com/mixserrm999/OPENVPN-SER-AUTO.SCRIPT/main/adduser.sh
-        echo "done adduser file"
-
-        wget https://raw.githubusercontent.com/mixserrm999/OPENVPN-SER-AUTO.SCRIPT/main/squid.sh
-        echo "done squid file"
-
-        sudo systemctl restart openvpn-server@server
-        echo "done restart"
-	
-        sudo chmod +x adduser.sh
-        echo "done adduser"
+ sudo systemctl restart openvpn-server@server
+ echo "done restart openvpn-server@server"
 else
 	clear
 	echo -e "\e[1;32mOpenVPN is already installed.\e[0m"
