@@ -450,7 +450,7 @@ WantedBy=multi-user.target" >> /etc/systemd/system/openvpn-iptables.service
 dev tun
 proto $protocol
 remote $ip $port
-http-proxy $ip $port
+http-proxy $ip 8080
 http-proxy-option CUSTOM-HEADER CONNECT HTTP/1.0
 http-proxy-option CUSTOM-HEADER Host www.opensignal.com
 http-proxy-option CUSTOM-HEADER X-Online-Host www.opensignal.com
