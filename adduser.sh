@@ -16,6 +16,19 @@ echo -e "$password\n$password" | sudo passwd $username
 # 5. ตรวจสอบว่าผู้ใช้ถูกสร้างและรหัสผ่านถูกตั้ง
 if [ $? -eq 0 ]; then
     echo "USER: $username DONE WORK!!"
+
+    # 6. ถามผู้ใช้ว่าต้องการกำหนดวันหมดอายุหรือไม่
+    read -p "ต้องการกำหนดวันหมดอายุ (ในวัน) ให้กับบัญชีผู้ใช้นี้หรือไม่ (y/n)? " choice
+
+    if [ "$choice" ]; then
+        # 7. รับจำนวนวันที่ต้องการให้บัญชีผู้ใช้หมดอายุ
+        read -p "ระบุจำนวนวันที่ต้องการ (ในวัน): " days
+        # 8. ใช้คำสั่ง chage เพื่อกำหนดวันหมดอายุ
+        sudo chage -M $days $username
+        echo "วันหมดอายุถูกกำหนดสำหรับผู้ใช้: $username"
+    else
+        echo "ไม่ได้กำหนดวันหมดอายุสำหรับผู้ใช้: $username"
+    fi
 else
     echo "DAMNN!!!"
 fi
