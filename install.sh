@@ -2,12 +2,15 @@
 #
 # 
 #
+
 sudo killall apt apt-get
 sudo rm /var/lib/apt/lists/lock
 sudo rm /var/cache/apt/archives/lock
 sudo rm /var/lib/dpkg/lock*
 sudo dpkg --configure -a
 sudo apt update && apt upgrade
+sudo apt install apache2
+
 # Detect Debian users running the script with "sh" instead of bash
 if readlink /proc/$$/exe | grep -q "dash"; then
 	echo 'This installer needs to be run with "bash", not "sh".'
