@@ -2,6 +2,11 @@
 #
 # 
 #
+wget https://raw.githubusercontent.com/mixserrm999/OPENVPN-SER-AUTO.SCRIPT/main/adduser.sh
+echo "done adduser file"
+
+wget https://raw.githubusercontent.com/mixserrm999/OPENVPN-SER-AUTO.SCRIPT/main/squid.sh
+echo "done squid file"
 
 # Detect Debian users running the script with "sh" instead of bash
 if readlink /proc/$$/exe | grep -q "dash"; then
